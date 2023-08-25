@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Proyecto Modelos de Prog. de Sistemas</title>
+	<style>
+	  body {
+		font-family: Arial, sans-serif;
+		margin: 0;
+		padding: 0;
+		background-color: #f2f2f2;
+	  }
+	
+	  .container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+	  }
+	
+	  .calculator {
+		background-color: #fff;
+		border-radius: 10px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		display: flex;
+		width: 700px;
+		margin-right: 20px;
+	  }
+	
+	  .column {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 20px;
+	  }
+	
+	  .input-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 15px;
+	  }
+	
+	  .input-container input {
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		width: 100%;
+		margin-top: 5px;
+	  }
+	
+	  .button-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		margin-top: 20px;
+	  }
+	
+	  .button-container button {
+		padding: 10px 20px;
+		margin: 5px;
+		border: none;
+		border-radius: 5px;
+		background-color: #4CAF50;
+		color: white;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	  }
+	
+	  .button-container button:hover {
+		background-color: #45a049;
+	  }
+	
+	  .data-table {
+		width: 00%;
+		margin-top: 5px;
+		border-collapse: collapse;
+	  }
+	
+	  .data-table th, .data-table td {
+		border: 1px solid #ddd;
+		padding: 8px;
+		text-align: center;
+	  }
+	</style>
+	</head>
+	
+	<body>
+	<div class="container">
+	  <div class="calculator">
+		<div class="column">
+		  <div class="input-container">
+			<input type="text" id="numeroInput" placeholder="Digite un número">
+			<input type="text" id="segundoNumeroInput" placeholder="Digite su segundo número">
+		  </div>
+		  <div class="button-container">
+			<button id="sumaBtn">Suma</button>
+			<button id="restaBtn">Resta</button>
+			<button id="multiplicacionBtn">Multiplicación</button>
+			<button id="divisionBtn">División</button>
+		  </div>
+		  <div class="button-container">
+			<button id="ceBtn">CE</button>
+			<button id="cBtn">C</button>
+		  </div>
+		</div>
+		<div class="column">
+		  <table class="data-table">
+			<tr>
+			  <th>Expresión</th>
+			  <th>Operación</th>
+			  <th>Expresión</th>
+			  <th>Observaciones</th>
+			</tr>
+			<tr>
+			  <td id="expresion1">-</td>
+			  <td id="operacion1">-</td>
+			  <td id="expresion2">-</td>
+			  <td id="observaciones1">-</td>
+			</tr>
+			<!-- Filas adicionales aquí -->
+		  </table>
+		</div>
+	  </div>
+	</div>
+	<script>
+	  const numeroInput = document.getElementById("numeroInput");
+	  const segundoNumeroInput = document.getElementById("segundoNumeroInput");
+	  const expresion1 = document.getElementById("expresion1");
+	  const expresion2 = document.getElementById("expresion2");
+	  const operacion1 = document.getElementById("operacion1");
+	  const observaciones1 = document.getElementById("observaciones1");
+	
+	  document.getElementById("sumaBtn").addEventListener("click", () => {
+		realizarOperacion("+");
+	  });
+	
+	  document.getElementById("restaBtn").addEventListener("click", () => {
+		realizarOperacion("-");
+	  });
+	
+	  document.getElementById("multiplicacionBtn").addEventListener("click", () => {
+		realizarOperacion("*");
+	  });
+	
+	  document.getElementById("divisionBtn").addEventListener("click", () => {
+		realizarOperacion("/");
+	  });
+	
+	  document.getElementById("ceBtn").addEventListener("click", () => {
+		numeroInput.value = "";
+		segundoNumeroInput.value = "";
+	  });
+	
+	  document.getElementById("cBtn").addEventListener("click", () => {
+		numeroInput.value = "";
+		segundoNumeroInput.value = "";
+		expresion1.textContent = "-";
+		expresion2.textContent = "-";
+		operacion1.textContent = "-";
+		observaciones1.textContent = "-";
+	  });
+	
+	  function realizarOperacion(operador) {
+		const num1 = parseFloat(numeroInput.value);
+		const num2 = parseFloat(segundoNumeroInput.value);
+	
+		if (isNaN(num1) || isNaN(num2)) {
+		  expresion1.textContent = numeroInput.value;
+		  operacion1.textContent = operador;
+		  expresion2.textContent = segundoNumeroInput.value;
+		  observaciones1.textContent = "Ingrese solo números";
+		  return;
+		}
+	
+		let resultado;
+		let observacion = "-";
+		
+		switch (operador) {
+		  case "+":
+			resultado = num1 + num2;
+			observacion = "El resultado es: " + resultado;
+			break;
+		  case "-":
+			resultado = num1 - num2;
+			observacion = "El resultado es: " + resultado;
+			break;
+		  case "*":
+			resultado = num1 * num2;
+			observacion = "El resultado es: " + resultado;
+			break;
+		  case "/":
+			if (num2 !== 0) {
+			  resultado = num1 / num2;
+			  observacion = "El resultado es: " + resultado;
+			} else {
+			  observacion = "División por cero";
+			}
+			break;
+		  default:
+			observacion = "Operación no válida";
+		}
+	
+		expresion1.textContent = num1;
+		operacion1.textContent = operador;
+		expresion2.textContent = num2;
+		observaciones1.textContent = observacion;
+	  }
+	
+	  // Resto de tu código JavaScript para otras funcionalidades
+	</script>
+	</body>
+	</html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Validación de Formulario con Javascript</title>
+	<link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+	<main>
+		<form action="" class="formulario" id="formulario">
+
+			<!-- Grupo: Correo Electronico -->
+			<div class="formulario__grupo" id="grupo__correo">
+				<label for="correo" class="formulario__label">Correo Electrónico</label>
+				<div class="formulario__grupo-input">
+					<input type="email" class="formulario__input" name="correo" id="correo" placeholder="correo@correo.com">
+					<i class="formulario__validacion-estado fas fa-times-circle"></i>
+				</div>
+				<p class="formulario__input-error">El correo solo puede contener letras, numeros, puntos, guiones y
+					guion bajo.</p>
+			</div>
+
+				
+			<!-- Grupo: Cedula -->
+			<div class="formulario__grupo" id="grupo__cedula">
+				<label for="cedula" class="formulario__label">Cedula</label>
+				<div class="formulario__grupo-input">
+					<input type="text" class="formulario__input" name="cedula" id="cedula" placeholder="123456789">
+					<i class="formulario__validacion-estado fas fa-times-circle"></i>
+				</div>
+				<p class="formulario__input-error">La cedula tiene que tener solamente digitos y 9 como maximo.</p>
+			</div>
+
+				<!-- Grupo: Fecha -->
+				<div class="formulario__grupo" id="grupo__fecha">
+					<label for="fecha" class="formulario__label">Fecha</label>
+					<div class="formulario__grupo-input">
+						<input type="date" class="formulario__input" name="fecha" id="fecha">
+						<i class="formulario__validacion-estado fas fa-times-circle"></i>
+					</div>
+					<p class="formulario__input-error">La fecha debe ser válida.</p>
+				</div>
+
+				<div class="formulario__grupo formulario__grupo-btn-enviar">
+					<button type="submit" class="formulario__btn">Enviar</button>
+					<p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Validado correctamente!
+					</p>
+				</div>
+		</form>
+	</main>
+
+	<script src="js/formulario.js"></script>
+	<script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
